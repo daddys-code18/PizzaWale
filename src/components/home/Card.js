@@ -1,31 +1,60 @@
-import React from "react";
+import { CartContext } from "@/utils/ContextReducer";
 import Image from "next/image";
 import Link from "next/link";
-let priceOptions = ["regular", "medium", "large"];
-const Card = () => {
+import React, { useContext, useState } from "react";
+
+const Card = ({ foodData }) => {
+  const { state, dispatch } = useContext(CartContext);
+  const priceOptions = Object.keys(foodData.price);
+  const [qty, setQty] = useState(1);
+  const [size, setSize] = useState(priceOptions[0]);
+
+  const handleQty = (e) => {
+    console.log(qty);
+    setQty(e.target.value);
+  };
+  const handleSize = (e) => {
+    setSize(e.target.value);
+  };
+
+  const handleAddToCart = () => {
+    dispatch({
+      type: "ADD",
+      id: foodData.id,
+      name: foodData.name,
+      price: finalPrice,
+      qty: qty,
+      priceOption: size,
+      img: foodData.img,
+    });
+    console.log(state);
+  };
+  let finalPrice = qty * parseInt(foodData.price[size]);
+
   return (
     <div className="box">
       <div className="w-80 rounded-lg bg-white overflow-hidden dark:bg-black border-gradient">
         {/* <Link href={{ pathname: "/Item/[item]" }} as={`Item/${data["_id"]}`}> */}
         <div className="relative w-full h-80">
-          {/* <Image
-            src="https://images.pexels.com/photos/326278/pexels-photo-326278.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          <Image
+            // src="https://www.dominos.co.in/files/items/Farmhouse.jpg "
+            src={foodData.img}
             layout="fill"
             objectFit="cover"
             alt="pizza"
-          /> */}
+          />
         </div>
         <div className="p-4">
-          <div lassName="font-bold mb-2 text-xl uppercase"> Pizza Name</div>
+          <div lassName="font-bold mb-2 text-xl uppercase">{foodData.name}</div>
           <p className=" short_description text-gray-700 dark:text-gray-400 text-base">
-            description
+            {foodData.description}
           </p>
         </div>
         {/* </Link> */}
         <div className="flex px-4 justify-between">
           <select
             className=" h-100  p-1 text-black hover:font-bold font-semibold cursor-pointer dark:text-gray-300  border border-black dark:border-gray-400 rounded"
-            // onChange={handleQty}
+            onChange={handleQty}
           >
             {Array.from(Array(6), (e, i) => {
               return (
@@ -37,7 +66,7 @@ const Card = () => {
           </select>
           <select
             className=" h-100  p-1 text-black hover:font-bold font-semibold cursor-pointer dark:text-gray-300  border border-black dark:border-gray-400 rounded"
-            // onChange={handleSize}
+            onChange={handleSize}
           >
             {priceOptions.map((options) => {
               return (
@@ -50,12 +79,12 @@ const Card = () => {
         </div>
         <div className="flex p-4 font-bold  justify-between">
           <button
-            // onClick={handleAddToCart}
+            onClick={handleAddToCart}
             className="border dark:border-gray-400 border-gray-900 rounded p-2 hover:bg-gradient-to-r from-indigo-700 via-violet-700 to-orange-700  hover:text-gray-100 "
           >
             Add to cart
           </button>
-          <p className="p-2 text-xl">₹500/-</p>
+          <p className="p-2 text-xl">₹{finalPrice}</p>
         </div>
       </div>
     </div>
