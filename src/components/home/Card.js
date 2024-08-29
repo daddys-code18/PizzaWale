@@ -17,18 +17,32 @@ const Card = ({ foodData }) => {
     setSize(e.target.value);
   };
 
-  const handleAddToCart = () => {
-    dispatch({
-      type: "ADD",
-      id: foodData.id,
-      name: foodData.name,
-      price: finalPrice,
-      qty: qty,
-      priceOption: size,
-      img: foodData.img,
-    });
-    console.log(state);
+  const handleAddToCart = async () => {
+    const updateItem = await state.find(
+      (item) => item.tempId === foodData.id + size
+    );
+    if (!updateItem) {
+      dispatch({
+        type: "ADD",
+        id: foodData.id,
+        tempId: foodData.id + size,
+        name: foodData.name,
+        price: finalPrice,
+        qty: qty,
+        priceOption: size,
+        img: foodData.img,
+      });
+    }
+    if (updateItem) {
+      dispatch({
+        type: "UPDATE",
+        tempId: foodData.id + size,
+        price: finalPrice,
+        qty: qty,
+      });
+    }
   };
+
   let finalPrice = qty * parseInt(foodData.price[size]);
 
   return (

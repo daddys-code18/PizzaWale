@@ -7,7 +7,7 @@ const reducer = (state, action) => {
         ...state,
         {
           id: action.id,
-        //   tempId: action.tempId,
+          tempId: action.tempId,
           name: action.name,
           price: action.price,
           qty: action.qty,
@@ -15,6 +15,14 @@ const reducer = (state, action) => {
           img: action.img,
         },
       ];
+      case "UPDATE":
+        let arr =[...state];
+        arr.find((food,index)=>{
+            if(food.tempId ===action.tempId){
+                arr[index]={...food,gty:parseInt(action.qty) +parseInt(food.qty),price:action.price+food.price}
+            }
+        })
+        return arr
     default:
       console.log("Action type");
   }
