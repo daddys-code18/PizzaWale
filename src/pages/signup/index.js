@@ -1,15 +1,39 @@
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const Signup = () => {
+  const router = useRouter();
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
     password: "",
     geolocation: "",
   });
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const response = await fetch("api/userSignUp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "appliction/json",
+      },
+      body: JSON.stringify({
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password,
+        location: credentials.geolocation,
+      }),
+    });
+    const res = await response.json();
+    if (res.success) {
+      localStorage.setItem("token", res.authToken);
+      localStorage.setItem("userEmail", credentials.email);
+      localStorage.setItem("isAdmin", false);
+      router.push("/");
+      //logic for signup
+    } else {
+      alert("There is something wrong. Please try again");
+    }
   };
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
