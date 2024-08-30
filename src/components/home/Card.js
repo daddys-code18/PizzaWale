@@ -10,7 +10,7 @@ const Card = ({ foodData }) => {
   const [size, setSize] = useState(priceOptions[0]);
 
   const handleQty = (e) => {
-    console.log(qty);
+    // console.log(qty);
     setQty(e.target.value);
   };
   const handleSize = (e) => {
@@ -19,13 +19,13 @@ const Card = ({ foodData }) => {
 
   const handleAddToCart = async () => {
     const updateItem = await state.find(
-      (item) => item.tempId === foodData.id + size
+      (item) => item.tempId === foodData["_id"] + size
     );
     if (!updateItem) {
       dispatch({
         type: "ADD",
-        id: foodData.id,
-        tempId: foodData.id + size,
+        id: foodData["_id"],
+        tempId: foodData["_id"] + size,
         name: foodData.name,
         price: finalPrice,
         qty: qty,
@@ -36,7 +36,7 @@ const Card = ({ foodData }) => {
     if (updateItem) {
       dispatch({
         type: "UPDATE",
-        tempId: foodData.id + size,
+        tempId: foodData["_id"] + size,
         price: finalPrice,
         qty: qty,
       });

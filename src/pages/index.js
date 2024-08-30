@@ -1,22 +1,22 @@
 import Card from "@/components/home/Card";
 import CarouselComponent from "@/components/home/Carousel";
 import { Inter } from "next/font/google";
-import CardData from "../store/cardData.json";
+// import CardData from "../store/cardData.json";
 import { useEffect, useState } from "react";
+import { baseUrl } from "@/utils/baseUrl";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({ data }) {
   let categories = new Set();
   let categoryArray;
   const [typeFilter, setTypeFilter] = useState(false);
   const foodData = [];
   const handleData = () => {
-    CardData.map((data) => {
+    data?.map((data) => {
       return foodData.push(data), categories.add(data.category);
     });
   };
-
   handleData();
   categoryArray = [...categories];
 
@@ -93,4 +93,23 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export async function getStaticProps() {
+  let data;
+  try {
+    const PizzaData = await fetch(baseUrl + "api/foodData", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .catch((error) => error.message);
+    data = await JSON.parse(JSON.stringify(PizzaData));
+  } catch (error) {
+    console.log(error.message);
+  }
+  return {
+    props: {
+      data: data.data || null,
+    },
+  };
 }
