@@ -5,10 +5,9 @@ const connection = {};
 
 async function connect() {
   if (connection.isConnected) {
-    console.log("Already Connected");
+    console.log("already connected");
     return;
   }
-
   if (mongoose.connections.length > 0) {
     connection.isConnected = mongoose.connections[0].readyState;
     if (connection.isConnected === 1) {
@@ -17,7 +16,6 @@ async function connect() {
     }
     await mongoose.disconnect();
   }
-
   const db = await mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
