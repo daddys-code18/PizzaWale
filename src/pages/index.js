@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 // import CardData from "../store/cardData.json";
 import { useEffect, useState } from "react";
 import { baseUrl } from "@/utils/baseUrl";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,9 @@ export default function Home({ data }) {
 
   return (
     <>
+      <Head>
+        <title>PizzaWale</title>
+      </Head>
       <CarouselComponent />
       <div className="container mx-auto">
         <div className="my-6 space-x-5">

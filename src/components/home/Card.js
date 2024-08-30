@@ -48,23 +48,28 @@ const Card = ({ foodData }) => {
   return (
     <div className="box">
       <div className="w-80 rounded-lg bg-white overflow-hidden dark:bg-black border-gradient">
-        {/* <Link href={{ pathname: "/Item/[item]" }} as={`Item/${data["_id"]}`}> */}
-        <div className="relative w-full h-80">
-          <Image
-            // src="https://www.dominos.co.in/files/items/Farmhouse.jpg "
-            src={foodData.img}
-            layout="fill"
-            objectFit="cover"
-            alt="pizza"
-          />
-        </div>
-        <div className="p-4">
-          <div lassName="font-bold mb-2 text-xl uppercase">{foodData.name}</div>
-          <p className=" short_description text-gray-700 dark:text-gray-400 text-base">
-            {foodData.description}
-          </p>
-        </div>
-        {/* </Link> */}
+        <Link
+          href={{ pathname: "/Items/[item]" }}
+          as={`Items/${foodData["_id"]}`}
+        >
+          <div className="relative w-full h-80">
+            <Image
+              // src="https://www.dominos.co.in/files/items/Farmhouse.jpg "
+              src={foodData.img}
+              layout="fill"
+              objectFit="cover"
+              alt="pizza"
+            />
+          </div>
+          <div className="p-4">
+            <div lassName="font-bold mb-2 text-xl uppercase">
+              {foodData.name}
+            </div>
+            <p className=" short_description text-gray-700 dark:text-gray-400 text-base">
+              {foodData.description}
+            </p>
+          </div>
+        </Link>
         <div className="flex px-4 justify-between">
           <select
             className=" h-100  p-1 text-black hover:font-bold font-semibold cursor-pointer dark:text-gray-300  border border-black dark:border-gray-400 rounded"
